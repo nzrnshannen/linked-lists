@@ -1,0 +1,130 @@
+/*===========================================================================================================================
+
+Program: A simple C program about creating and displaying students' information using linked lists (single linked lists).
+Created by: Shannen T. Nazareno
+Date: 11/05/2022
+
+===========================================================================================================================*/
+
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+struct node{
+	char name[100];
+	int age;
+	float marks;	
+	struct node *address;
+};
+
+void warningMessage()
+{
+	printf ("\n\nInvalid input. Try again.\n\n");
+}
+
+int createNodes(struct node *head, int choice)
+{
+	struct node *newNode, *temp;
+	
+	int i = 0, j =0, count=0;
+	char ch;
+	
+	do{
+		newNode = (struct node*)malloc(sizeof(struct node));
+		
+		printf ("\t\tSTUDENT %d\n", i+1);
+		printf ("Name: ");
+		
+		while((ch=getchar())!='\n')
+		{
+			newNode->name[j] = ch;
+			j++;
+		}
+		newNode->name[j] = '\0';
+		
+		j = 0;
+		
+		printf ("Age: ");
+		scanf (" %d", &newNode->age);
+		
+		printf ("Marks: ");
+		scanf (" %f", &newNode->marks);
+		printf ("\n\n");
+		
+		newNode->address = NULL;
+		
+		if(head==NULL)
+		{
+			head = temp = newNode;
+		}
+		else
+		{
+			temp->address = newNode;
+			temp = newNode;
+		}
+	
+	inputCount:	
+		printf ("Do you want to continue? [1] Yes   [0] No\n");
+		printf ("\tChoice: ");
+		scanf ("%d", &count);
+		
+		printf ("\n");
+		
+		if (count!=1 && count!=0)
+		{
+			warningMessage();
+			goto inputCount;
+		}
+		
+		i++;
+		
+		fflush(stdin);
+		
+	}while(count==1);
+	
+	temp = head;
+	
+	printf ("\n=================================================\n");
+	printf ("\t\tDATA GATHERED\n\n");
+	
+	i = j = 0;
+	
+	while(temp!=NULL)
+	{
+		printf ("\t\t--STUDENT %d--\n", i+1);
+		printf ("\tName: %s", temp->name);
+		printf ("\n\tAge: %d\n", temp->age);
+		printf ("\tMarks: %.2f\n\n", temp->marks);
+		
+		count++, i++;
+		
+		temp = temp->address;
+	}
+	
+	free(head);
+	free(newNode);
+	free(temp);
+	
+	head = newNode = temp = NULL;
+	
+	return count;
+}
+
+int main()
+{
+	struct node *head;
+	head = NULL;
+
+	int count;
+	count = createNodes(head, 1);
+	
+	printf ("\n-------------------------------------");
+	printf ("\nTotal number of students [by node]: %d\n", count);
+	
+	free(head);
+	head = NULL;
+	
+	return 0;
+}
+
