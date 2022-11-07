@@ -1,3 +1,14 @@
+/*==============================================================================================
+
+Program: A C program about creating, displaying, and inserting (at the beginning, end, and
+			after nth position) nodes in a singly-linked list.
+Created by: Shannen T. Nazareno
+Date of creation: 11/08/2022
+Date published: 11/08/2022
+
+=============================================================================================*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
