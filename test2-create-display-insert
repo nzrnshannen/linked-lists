@@ -1,0 +1,291 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+struct node{
+	int data;
+	struct node *address;	
+};
+
+struct node *head, *temp, *newNode;
+int count = 0;
+
+void warningMessage1();
+void warningMessage2();
+int warningMessage3();
+void pressAnyKey();
+void insert_at_beginning();
+void insert_at_end();
+void insert_after_nth(int);
+void displayList();
+void createList();
+
+
+
+int main()
+{
+	head=NULL;
+	int choice=1, pos, input;
+	
+	do{
+	inputChoice:
+		printf ("========================================\n");
+		printf ("What would you like to do now?\n");
+		printf ("[1] Create a new list\n");
+		printf ("[2] Insert\n");
+		printf ("[3] Display\n");
+		printf ("[0] EXIT\n");
+		printf ("\tChoice: ");
+		scanf ("%d", &input);
+		
+		if(input!=1 && input!= 2 && input!=0 && input!=3)
+		{
+			warningMessage1(); 
+			goto inputChoice;
+		}
+		else
+		{
+			printf ("\nYou chose %d.\n\n", input);
+		}
+		switch(input)
+		{
+			case 1: 
+				if(head!=NULL)
+				{
+					int result = warningMessage3();
+					
+					if(result==1)
+					{
+						createList();
+					}
+					else
+					{	
+						goto inputChoice;
+					}
+				}
+				else
+				{
+					createList();
+				}
+
+				break;
+			case 2: 
+			
+				int insertionChoice;
+				
+				if(count==0)
+				{
+					warningMessage2();
+					goto inputChoice;
+				}
+				
+			insertType:
+				printf("\t\t\t\t==========================\n");
+				printf ("\t\t\t\t\tINSERTION\n");
+				printf ("\t\t\t\t[1] At the beginning\n");
+				printf ("\t\t\t\t[2] At the end\n");
+				printf ("\t\t\t\t[3] After the nth position\n");
+				printf ("\t\t\t\t\tChoice: ");
+				scanf ("%d", &insertionChoice);
+				
+				if(insertionChoice!=1 && insertionChoice!=2 && insertionChoice!=3)
+				{
+					warningMessage1();
+					goto insertType;
+				}
+				
+				printf ("You chose %d.\n\n", insertionChoice);
+				
+				switch(insertionChoice)
+				{
+					case 1: insert_at_beginning();
+						break;
+						
+					case 2: insert_at_end();
+						break;
+						
+					case 3:
+					inputPosition:
+					printf ("Enter a position: ");
+					scanf("%d", &pos);
+					
+					if(pos>count)
+					{
+						printf ("\n\nPosition doesn't exist. Try entering a new one.\n\n");
+						goto inputPosition;
+					}
+					else
+					{
+						insert_after_nth(pos);
+					}
+						break;
+				}
+			break;
+			
+			case 3:
+				if(count==0)
+				{
+					warningMessage2();
+					goto inputChoice;
+				}
+				
+				displayList();
+				
+			break;
+		}
+	}while(input!=0);
+	
+	printf ("\n\n\n\t\t\t\t\t\tClosing the program...\n\n");
+	
+	printf ("Enter any key to completely terminate the program- ");
+	getch();
+	return 0;
+	
+}
+
+void warningMessage1()
+{
+	printf ("\n\nInvalid input. Try again.\n\n");
+}
+
+void warningMessage2()
+{
+	printf ("\n\nLinked list is empty. Try creating one.\n\n");
+}
+
+int warningMessage3()
+{
+	int choice;
+	inputChoice:
+	printf ("\n\aYOU CHOSE [1] AS YOUR INPUT.\n");
+	printf ("You have created a linked list already. Upon proceeding,\n");
+	printf ("you will start again from scratch which means you'll lose reference/access\n");
+	printf ("to your current linked list. Still proceed? ");
+	printf ("\n\t[1] Yes  [2]  No");
+	printf ("\n\t\tChoice: ");
+	scanf ("%d", &choice);
+	
+	if(choice!=1 && choice!=2)
+	{
+		warningMessage1();
+		goto inputChoice;
+	}
+	
+	return choice;
+}
+
+void pressAnyKey()
+{
+	printf ("\n\nPress any key to proceed-\n");
+	getch();
+}
+void displayList()
+{
+	int i=1;
+	temp = head;
+	while(temp!=NULL)
+	{
+		printf ("Data %d: %d\n", i++, temp->data);
+		temp = temp->address;
+	}
+	printf ("\n\n");
+	
+	pressAnyKey();
+}
+
+void insert_at_beginning()
+{
+	newNode=(struct node*)malloc(sizeof(struct node));
+	printf ("Enter data to be inserted at the beginning: ");
+	scanf ("%d", &newNode->data);
+	count++;
+	
+	temp = head;
+	newNode->address = temp;
+	head = newNode;
+	
+	pressAnyKey();
+}
+
+void insert_at_end()
+{
+	newNode = (struct node*)malloc(sizeof(struct node));
+	printf ("Enter data to be inserted at the end of the list: ");
+	scanf ("%d", &newNode->data);
+	count++;
+	newNode->address = NULL;
+	
+	temp=head;
+	while(temp->address!=NULL)
+	{
+		temp=temp->address;
+	}
+	temp->address = newNode;
+	
+	pressAnyKey();
+}
+
+void insert_after_nth(int pos)
+{
+	int i=1;
+	newNode=(struct node*)malloc(sizeof(struct node));
+	printf ("Enter data to be inserted after position %d: ", pos);
+	scanf ("%d", &newNode->data);
+	count++;
+	
+	temp = head;
+	newNode->address = NULL;
+	
+	while(i<pos)
+	{
+		temp=temp->address;
+		i++;
+	}
+	
+	newNode->address = temp->address;
+	temp->address=newNode;
+	
+	temp = head;
+	
+	pressAnyKey();
+}
+
+void createList()
+{
+	int i=1;
+	int choice=1;
+	do{
+	
+	inputChoice:
+		newNode = (struct node*)malloc(sizeof(struct node));
+		count++;
+		printf ("Enter data %d: ", i++);
+		scanf ("%d", &newNode->data);
+		newNode->address=NULL;
+		
+		if(head==NULL)
+		{
+			head = temp = newNode;
+		}
+		else
+		{
+			temp->address = newNode;
+			temp = newNode;
+		}
+		
+		printf ("\n----------------------------------------------------------------------------\n");
+		printf ("\t\t\tDo you want to continue? [1] Yes   [2] No\n\t\t\t\tChoice: ");
+		scanf ("%d", &choice);
+		
+		if(choice!=1 && choice!=2)
+		{
+			warningMessage1();
+			goto inputChoice;
+		}
+		printf ("\n");
+	}while(choice==1);
+	
+	temp = head;
+}
+
+//insert a function that will free all nodes upon user deciding to create a new list and/or at the termination of the program. 
