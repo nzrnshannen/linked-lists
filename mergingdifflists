@@ -1,0 +1,117 @@
+/*====================================================================================================================================
+
+Program: A simple C program that merges 2 different linked lists created by user.
+		Note: Program was for testing purposes only and yet to be modified.
+		
+Created by: Shannen T. Nazareno
+Date of creation: 11/09/2022
+Date published: 11/09/2022
+
+=====================================================================================================================================*/
+
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node{
+	int data;
+	struct node *address;
+};
+
+struct node *head, *newNode, *temp;
+struct node *otherHead, *otherTemp;
+
+void displayList();
+void createAnotherList();
+
+int main()
+{
+	head = NULL;
+	int n, i=1;
+	printf ("Enter number of nodes for your linked list: ");
+	scanf("%d", &n);
+	
+	int choice;
+	while(i<=n)
+	{
+		newNode = (struct node*)malloc(sizeof(struct node));
+		newNode->address = NULL;
+		printf ("Enter data %d: ", i);
+		scanf ("%d", &newNode->data);
+		
+		if(head==NULL)
+		{
+			head = temp = newNode;
+		}
+		else
+		{
+			temp->address = newNode;
+			temp = newNode;
+		}
+		i++;
+	}
+	
+	printf ("\nDo you want to create another linked list? [1] Yes  [2] No\n");
+	printf ("\tChoice: ");
+	scanf ("%d", &choice);
+		
+	if(choice==1)
+	{
+		createAnotherList();
+		temp = head;
+		while(temp->address!=NULL)
+		{
+			temp = temp->address;
+		}
+		
+		temp->address = otherHead;
+	}
+		
+	printf ("\n\nNow displaying the final linked list...\n");
+	displayList();
+	
+	
+}
+
+void createAnotherList()
+{
+	
+	int n, i=1;
+	printf ("\nEnter number of nodes for another list: ");
+	scanf ("%d", &n);
+	otherHead = NULL;
+	while(i<=n)
+	{
+		newNode = (struct node*)malloc(sizeof(struct node));
+		newNode->address = NULL;
+		
+		printf ("Enter data %d: ", i);
+		scanf ("%d", &newNode->data);
+		
+		if(otherHead==NULL)
+		{
+			otherHead = otherTemp = newNode;
+		}
+		else
+		{
+			otherTemp->address = newNode;
+			otherTemp = newNode;
+		}
+		i++;
+	}
+	
+	otherTemp = otherHead;
+}
+
+void displayList()
+{
+	temp = head;
+	int i=1;
+	while(temp!=NULL)
+	{
+		printf ("Data %d: %d\n", i, temp->data);
+		temp = temp->address;
+		i++;
+	}
+	
+	temp = head;
+}
