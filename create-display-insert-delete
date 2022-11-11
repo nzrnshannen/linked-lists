@@ -1,6 +1,6 @@
 /*=================================================================================================================================
 
-Program: [PROJECT 1] A C program that helps user to create a single linked lists as well as performing operations
+Program: [PROJECT 1] A C program that helps user to create a single linked list as well as performs operations
 			on nodes such as inserting a node (beginning, end, nth position), deleting a node (beginning, end, nth position),
 				and displaying the created list.
 
