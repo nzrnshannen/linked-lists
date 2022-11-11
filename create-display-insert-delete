@@ -78,6 +78,8 @@ int main()
 					if(result==1)
 					{
 						//function here that will delete all nodes
+						free(head);
+						head = NULL;
 						createList();
 					}
 					else
@@ -286,6 +288,8 @@ int warningMessage3()
 	}
 	
 	printf ("\n\n");
+	
+	pressAnyKey();
 	return choice;
 }
 
